@@ -21,9 +21,10 @@ public class AuthorList {
             conn = Database.getConnection();
 
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from author");
+            rs = stmt.executeQuery("select * from author order by fio");
             while (rs.next()) {
                 Author author = new Author();
+                author.setId(rs.getLong("id"));
                 author.setName(rs.getString("fio"));
                 authorList.add(author);
             }
@@ -34,7 +35,7 @@ public class AuthorList {
             try {
                 if (stmt!=null) stmt.close();
                 if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
+//                if (conn!=null)conn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(AuthorList.class.getName()).log(Level.SEVERE, null, ex);
             }
