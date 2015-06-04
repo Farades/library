@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ru.javabegin.training.web.db.Database;
+import ru.javabegin.training.web.enums.SearchType;
 
 public class BookList {
 
@@ -61,20 +62,48 @@ public class BookList {
     }
 
     public ArrayList<Book> getAllBooks() {
-        if (!bookList.isEmpty()) {
-            return bookList;
+        return getBooks("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, "
+                + "a.fio as author, g.name as genre, b.image from book b inner join author a on b.author_id=a.id "
+                + "inner join genre g on b.genre_id=g.id inner join publisher p on b.publisher_id=p.id order by b.name");
+    }
+
+    public ArrayList<Book> getBooksByGenre(long id) {
+        if (id == 0) {
+            return getAllBooks();
         } else {
-            return getBooks("select * from book order by name");
+            return getBooks("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, a.fio as author, g.name as genre, b.image from book b "
+                    + "inner join author a on b.author_id=a.id "
+                    + "inner join genre g on b.genre_id=g.id "
+                    + "inner join publisher p on b.publisher_id=p.id "
+                    + "where genre_id=" + id + " order by b.name "
+                    + "limit 0,5");
         }
     }
 
-    public ArrayList<Book> getBooksByGenre(long id) {;
+    public ArrayList<Book> getBooksByLetter(String letter) {;
         return getBooks("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, a.fio as author, g.name as genre, b.image from book b "
                 + "inner join author a on b.author_id=a.id "
                 + "inner join genre g on b.genre_id=g.id "
                 + "inner join publisher p on b.publisher_id=p.id "
-                + "where genre_id=" + id + " order by b.name "
+                + "where substr(b.name,1,1)='" + letter + "' order by b.name "
                 + "limit 0,5");
 
+    }
+
+    public ArrayList<Book> getBooksBySearch(String searchStr, SearchType type) {
+        StringBuilder sql = new StringBuilder("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, a.fio as author, g.name as genre, b.image from book b "
+                + "inner join author a on b.author_id=a.id "
+                + "inner join genre g on b.genre_id=g.id "
+                + "inner join publisher p on b.publisher_id=p.id ");
+
+        if (type == SearchType.AUTHOR) {
+            sql.append("where lower(a.fio) like '%" + searchStr.toLowerCase() + "%' order by b.name ");
+
+        } else if (type == SearchType.TITLE) {
+            sql.append("where lower(b.name) like '%" + searchStr.toLowerCase() + "%' order by b.name ");
+        }
+        sql.append("limit 0,5");
+
+        return getBooks(sql.toString());
     }
 }

@@ -1,6 +1,8 @@
 package ru.javabegin.training.web.beans;
 
+import java.awt.Image;
 import java.io.Serializable;
+import java.util.Date;
 
 public class Book implements Serializable{
 
@@ -94,5 +96,8 @@ public class Book implements Serializable{
     public void setImage(byte[] image) {
         this.image = image;
     }
-       
+    
+    
+    
+    
 }

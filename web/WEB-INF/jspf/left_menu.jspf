@@ -5,8 +5,22 @@
     <h4>Жанры:</h4>
     <ul class="nav">
         <jsp:useBean id="genreList" class="ru.javabegin.training.web.beans.GenreList" scope="application"/>
-        <c:forEach var="genre" items="${genreList.getGenreList()}">
-            <li><a href="books.jsp?genre_id=${genre.getId()}&name=${genre.getName()}">${genre.getName()}</a></li>
-        </c:forEach>
+        <%
+            Long selectedGenreId = 0L;
+            if (request.getParameter("genre_id") != null) {
+                selectedGenreId = Long.valueOf(request.getParameter("genre_id"));
+            }
+        %>
+        <li><a href="books.jsp?genre_id=0">Все книги</a></li>
+        <%
+            for (Genre genre : genreList.getGenreList()) {
+                if (selectedGenreId != 0 && selectedGenreId == genre.getId()) {
+        %>
+                    <li><a style="color:red;" href="books.jsp?genre_id=<%=genre.getId()%>"><%=genre.getName()%></a></li>
+        <%      } else { %>
+                    <li><a href="books.jsp?genre_id=<%=genre.getId()%>"><%=genre.getName()%></a></li>
+        <%      }
+            }
+        %>
     </ul>
 </div>

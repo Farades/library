@@ -92,10 +92,6 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus {
     float: left;
 }
 
-.search_form input[type="text"] {
-    width: 750px;
-}
-
 .logo{
     text-align: left;
     padding: 20px;
@@ -168,7 +164,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus {
 .book_title p{
     color:#378de5 ;
     font-weight: bold; 
-    font-size: 13px; 
+    font-size: 15px; 
     padding: 0;
     margin: 0;
 }
@@ -184,15 +180,28 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus {
     font-size: 12px;
     float:left;
     margin:15px;
-    text-align: center;
 }
 
 .book_image{
     height: 260px;
     float:left;
+
 }
 
 .book_details{
     float:left;
     margin-top: 10px;
 }
+
+.letters{
+    float:left;
+    height: 20px;
+    margin: 10px;
+}
+
+.letters a{
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+}
+
